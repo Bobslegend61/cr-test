@@ -6,7 +6,7 @@ steps:
       [
         "build",
         "-t",
-        "$_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA",
+        "$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA",
         ".",
       ]
 
@@ -14,10 +14,7 @@ steps:
   - id: Push docker image for commit tag
     name: "gcr.io/cloud-builders/docker"
     args:
-      [
-        "push",
-        "$_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA",
-      ]
+      ["push", "$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA"]
 
   # Deploy to Cloud Run
   - id: Deploy image to Cloud Run
@@ -28,7 +25,7 @@ steps:
         "deploy",
         "$_SERVICE_NAME",
         "--image",
-        "$_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA",
+        "$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA",
         "--platform",
         "$_PLATFORM",
         "--region",
