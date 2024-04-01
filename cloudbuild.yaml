@@ -1,0 +1,42 @@
+steps:
+  # Build phase
+  - id: Build docker image
+    name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "--build-arg",
+        "-t",
+        "$_AR_REPO_URI:$SHORT_SHA",
+        "-t",
+        "$_AR_REPO_URI:$BRANCH_NAME",
+        ".",
+      ]
+    dir: "."
+
+  # Push to Artifact Registry [commit hash tag]
+  - id: Push docker image for commit tag
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "$_AR_REPO_URI:$SHORT_SHA"]
+
+  # Push to Artifact Registry [branch tag]
+  - id: Push docker image for branch tag
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "$_AR_REPO_URI:$BRANCH_NAME"]
+
+  # Deploy to Cloud Run
+  - id: Deploy image to Cloud Run
+    name: "gcr.io/cloud-builders/gcloud"
+    args:
+      [
+        "run",
+        "deploy",
+        "$_SERVICE_NAME",
+        "--image",
+        "$_AR_REPO_URI:$SHORT_SHA",
+        "--platform",
+        "managed",
+        "--region",
+        "us-west1",
+        "--allow-unauthenticated",
+      ]

@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-      target: prod
+      target: dev
     ports:
       - 3000:3000
     environment:
@@ -10,4 +10,4 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    command: npm start
+    command: npm run dev
