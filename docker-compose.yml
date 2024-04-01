@@ -5,7 +5,8 @@ services:
       - 3000:3000
     environment:
       - GEMINI_AI_API_KEY=${GEMINI_AI_API_KEY}
-    volumes:
-      - .:/app
-      - /app/node_modules
+      - OPEN_AI_API_KEY=${OPEN_AI_API_KEY}
+    # volumes:
+    #   - .:/app
+    #   - /app/node_modules
     command: npm start
