@@ -1,8 +1,6 @@
 services:
   app:
-    build:
-      context: .
-      target: prod
+    build: .
     ports:
       - 3000:3000
     environment:

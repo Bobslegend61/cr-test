@@ -6,8 +6,8 @@ COPY package*.json .
 
 RUN npm install
 
-FROM base as dev
-
 COPY . .
 
-FROM dev as prod
+EXPOSE 3000
+
+CMD [ "npm", "start" ]
